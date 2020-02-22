@@ -1,28 +1,33 @@
 import React, {Component} from "react";
+import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import "./App.css";
+import {CssBaseline} from "@material-ui/core";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import {orange} from "@material-ui/core/colors";
+import Homepage from "./homepage/homepage";
+
+const theme = createMuiTheme({
+  palette: {
+    background: {
+      default: "#383433",
+      paper: "#222"
+    },
+    primary: orange
+  }
+});
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      users: null
-    };
-  }
-
-  componentDidMount = async () => {
-    const resp = await fetch("/users");
-    this.setState({users: resp.json()});
-  };
-
   render() {
     return (
-      <div className="App">
-        <h1>Users</h1>
-        {this.state.users.map(user =>
-          <div key={user.id}>{user.username}</div>
-        )}
-      </div>
+      <ThemeProvider theme={theme}>
+        <CssBaseline/>
+        <Router>
+          <Switch>
+            <Route exact-path="/" children={<Homepage/>}/>
+          </Switch>
+        </Router>
+      </ThemeProvider>
     );
   }
 }
