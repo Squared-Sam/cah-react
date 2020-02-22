@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: npm audit action
+      uses: oke-py/npm-audit-action@v1.1.0
+      with:
+        # The `github` context
+        github_context: ${{ toJson(github) }}
+        # GitHub access token used to create an issue
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # Issue assignees (separated by commma)
+        issue_assignees: Lagicrus,smercer01
