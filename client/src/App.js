@@ -1,14 +1,19 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, {Component} from "react";
+import "./App.css";
 
 class App extends Component {
-  state = {users: []}
-
-  componentDidMount() {
-    fetch('/users')
-      .then(res => res.json())
-      .then(users => this.setState({ users }));
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      users: null
+    };
   }
+
+  componentDidMount = async () => {
+    const resp = await fetch("/users");
+    this.setState({users: resp.json()});
+  };
 
   render() {
     return (
