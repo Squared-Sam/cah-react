@@ -19,7 +19,7 @@ class Homepage extends Component {
   render() {
     if (this.state.users) {
       return (
-        <div className="App">
+        <div>
           <h1>Users</h1>
           {this.state.users.map(user =>
             <div key={user.id}>{user.username}</div>
