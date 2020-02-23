@@ -13,7 +13,7 @@ class GameList extends Component {
   }
 
   componentDidMount = async () => {
-    const resp = await Api.get("/list");
+    const resp = await Api.get("/game/list");
     this.setState({users: resp});
   };
 
