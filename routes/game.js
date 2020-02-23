@@ -8,7 +8,20 @@ router.get('/:id', function (req, res, next) {
 	res.send("Your Game id is " + req.params.id)
 })
 
+router.get("/list", function(req,res,next) {
+	let SanitizedList = [];
+
+	for(Game in GameList) {
+		let temp = Game
+		temp.pop(password)
+		temp.pop(gameID)
+		SanitizedList.push(temp)
+	}
+	req.send(SanitizedList)
+})
+
 router.post('/create', function (req, res, next) {
+	let name = req.body.name;
 	let maxPlayers = req.body.maxPlayers;
 	let packs = req.body.packs;
 	let players = [];
@@ -17,6 +30,7 @@ router.post('/create', function (req, res, next) {
 
 	let game = {
 		gameID,
+		name,
 		password,
 		maxPlayers,
 		packs,
@@ -45,13 +59,17 @@ router.post('/join', function (req, res, next) {
 	let game = getGameFromGames(gameID)
 
 	if (!game) {
-		res.status("505").send("Invalid Game")
+		res.status("401").send("Invalid Game")
 		return
 	}
 	if (pwd != game.pwd) {
-		res.status().send("Invalid Password")
+		res.status("401").send("Invalid Password")
 		return
 	}
+	if(game.players.length == game.maxPlayers){
+		res.status("401").send("The game is full unable to join")
+	}
+
 	game.players.push({
 		userID,
 		userNick,
