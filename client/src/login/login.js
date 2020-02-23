@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import TextField from "@material-ui/core/TextField";
 import {Redirect} from "react-router-dom";
+import Container from "@material-ui/core/Container";
 
 class Login extends Component {
   constructor(props) {
@@ -22,14 +23,14 @@ class Login extends Component {
   };
 
   render() {
-    if (this.state.loggedIn) {
+    if (this.state.loggedIn || this.props.loggedIn()) {
       return (
         <Redirect push to="/"/>
       );
     }
 
     return (
-      <div>
+      <Container>
         <Typography variant="h3">Pretend You're Gaming</Typography>
         <Typography variant="body1">This webapp is still in development. There will be bugs</Typography>
         <Grid container spacing={1} alignItems="flex-end">
@@ -40,7 +41,7 @@ class Login extends Component {
             <TextField id="input-with-icon-grid" label="Username" onKeyUp={this.handleInput} />
           </Grid>
         </Grid>
-      </div>
+      </Container>
     );
   }
 }

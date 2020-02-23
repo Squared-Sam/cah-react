@@ -71,6 +71,11 @@ class App extends Component {
 
   handleLogin = (username) => {
     this.setState({userID: username});
+    localStorage.setItem("userID", username);
+  };
+
+  loggedIn = () => {
+    return this.state.userID !== null;
   };
 
   ProtectedRoute = ({children, ...rest}) => {
@@ -85,6 +90,32 @@ class App extends Component {
     }
   };
 
+  storageAvailable(type) {
+    let storage;
+    try {
+      storage = window[type];
+      const x = "__storage_test__";
+      storage.setItem(x, x);
+      storage.removeItem(x);
+      return true;
+    } catch (e) {
+      return e instanceof DOMException && (
+        e.code === 22 ||
+        e.code === 1014 ||
+        e.name === "QuotaExceededError" ||
+        e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
+        (storage && storage.length !== 0);
+    }
+  }
+
+  componentDidMount() {
+    if (this.storageAvailable("localStorage")) {
+      if (localStorage.getItem("userID") !== null) {
+        this.setState({userID: localStorage.getItem("userID")});
+      }
+    }
+  }
+
   render() {
     return (
       <ThemeProvider theme={theme}>
@@ -92,7 +123,7 @@ class App extends Component {
         <Router>
           <Switch>
             <this.ProtectedRoute path="/gamelist" children={<GameList/>}/>
-            <Route path="/login" children={<Login handleLogin={this.handleLogin}/>}/>
+            <Route path="/login" children={<Login handleLogin={this.handleLogin} loggedIn={this.loggedIn}/>}/>
             <Route exact-path="/" children={<Homepage/>}/>
           </Switch>
         </Router>
