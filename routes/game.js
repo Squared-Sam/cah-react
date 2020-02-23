@@ -56,32 +56,36 @@ router.get('/players', function (req, res, next) {
 })
 
 router.post('/join', function (req, res, next) {
-	let userID = req.body.userID
 	let userNick = req.body.nickname
 	let gameID = req.body.gameID
 	let pwd = req.body.password
-	let score = 0;
 
-	let game = getGameFromGames(gameID)
+	console.log(getGameFromGames(gameID))
+
+	let game = getGameFromGames(gameID);
+	console.log("The current game is:" + game)
 
 	if (!game) {
-		res.status("401").send("Invalid Game")
+		next("Invalid Game")
 		return
 	}
-	if (pwd != game.pwd) {
-		res.status("401").send("Invalid Password")
+	console.log(pwd, game.password)
+	if (pwd != game.password) {
+		next("Invalid Password")
 		return
 	}
-	if (game.players.length == game.maxPlayers) {
-		res.status("401").send("The game is full unable to join")
+	console.log(game, game.players, game.maxPlayers)
+	if (game.players.size == game.maxPlayers) {
+		next("The game is full unable to join")
 	}
 
-	game.players.push({
-		"userID": userID,
-		"nickname": userNick,
-		"score": score
-	})
-	res.send("Sucessfully joined game:" + gameID)
+	let response = game.createPlayer(userNick)
+	if (!response) {
+		next("There was an error adding this person to the lobby")
+		return;
+	}
+
+	res.send("Sucessfully joined game:" + gameID, " the user id is ", response)
 })
 
 router.get("/:id/score", function (req, res, next) {
@@ -90,7 +94,7 @@ router.get("/:id/score", function (req, res, next) {
 	let game = new Game(getGameFromGames(gameID));
 
 	let player = game.getPlayer(playerID)
-	if(!player) {
+	if (!player) {
 		next("Unable to find player")
 	}
 	res.send(player.score)
@@ -103,11 +107,12 @@ router.post('/scorepoint', function (req, res, next) {
 	let game = new Game(getGameFromGames(gameID));
 
 	let player = game.getPlayer(playerID)
-	if(!player) {
+	if (!player) {
 		next("Unable to find player")
+		return
 	}
 
-	let newScore = player.score +=1
+	let newScore = player.score += 1
 
 	player.score(newScore)
 
@@ -117,9 +122,10 @@ router.post('/scorepoint', function (req, res, next) {
 })
 
 function getGameFromGames(GameID) {
-	for (Game in GameList) {
-		if (GameID == Game.id) {
-			return Game
+	for (game of GameList) {
+		console.log("Looking at game", game)
+		if (GameID == game.id) {
+			return game
 		}
 	}
 	return false

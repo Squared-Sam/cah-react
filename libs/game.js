@@ -21,7 +21,7 @@ class Game {
 
 		return json
 	}
-    get id() {
+	get id() {
 		return this._id
 	}
 	get name() {
@@ -40,19 +40,19 @@ class Game {
 		return this._players
 	}
 	createPlayer(name) {
-		if(name == "") {
+		if (name == "") {
 			return false
 		}
-		if(this._players.size == this._maxPlayers) {
+		if (this._players.size == this._maxPlayers) {
 			return false
 		}
 		let player = new Player(name)
 		this._players.push(player)
-		
-		return true
+
+		return player.id
 	}
 	getPlayer(playerID) {
-		for(player of this._players) {
+		for (player of this._players) {
 			if (player._id == playerID)
 				return player;
 		}

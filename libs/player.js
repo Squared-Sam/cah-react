@@ -5,7 +5,7 @@ class Player {
 	constructor(nickname) {
 		this._id = uuidv4();
 		this._nickname = nickname;
-		this._score = score
+		this._score = 0;
 	}
 	get id() {
 		return this._id;
