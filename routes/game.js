@@ -2,7 +2,7 @@ const uuidv4 = require('uuid/v4');
 const express = require('express')
 const router = express.Router()
 
-let GameList = [];
+let GameList = {};
 
 router.get('/:id', function (req, res, next) {
 	res.send("Your Game id is " + req.params.id)
