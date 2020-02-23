@@ -9,7 +9,7 @@ router.get('/:id', function (req, res, next) {
 })
 
 router.post('/create', function (req, res, next) {
-	let maxPlayers = req.body.size;
+	let maxPlayers = req.body.maxPlayers;
 	let packs = req.body.packs;
 	let players = [];
 	let password = req.body.password;
