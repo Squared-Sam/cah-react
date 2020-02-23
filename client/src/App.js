@@ -4,10 +4,10 @@ import "./App.css";
 import {CssBaseline} from "@material-ui/core";
 import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
-import {orange} from "@material-ui/core/colors";
 import Homepage from "./homepage/homepage";
 import Login from "./login/login";
 import GameList from "./gamelist/gamelist";
+import Header from "./header/header";
 
 const theme = createMuiTheme({
   typography: {
@@ -42,7 +42,6 @@ const theme = createMuiTheme({
       color: "white"
     },
     fontFamily: [
-      "'Port Lligat Slab'",
       "sans-serif"
     ].join(",")
   },
@@ -52,11 +51,8 @@ const theme = createMuiTheme({
     }
   },
   palette: {
-    background: {
-      default: "#383433",
-      paper: "#222"
-    },
-    primary: orange
+    primary: {main: "#9E9E9E"},
+    secondary: {main: "#BBDEFB"}
   }
 });
 
@@ -121,6 +117,7 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <CssBaseline/>
         <Router>
+          <Header/>
           <Switch>
             <this.ProtectedRoute path="/gamelist" children={<GameList/>}/>
             <Route path="/login" children={<Login handleLogin={this.handleLogin} loggedIn={this.loggedIn}/>}/>
