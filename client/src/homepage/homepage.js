@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {CircularProgress} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import Container from "@material-ui/core/Container";
+import Api from "../Api";
 
 class Homepage extends Component {
   constructor(props) {
@@ -13,9 +14,8 @@ class Homepage extends Component {
   }
 
   componentDidMount = async () => {
-    const resp = await fetch("/users");
-    const data = await resp.json();
-    this.setState({users: data});
+    const resp = await Api.get("/users");
+    this.setState({users: resp});
   };
 
   render() {
