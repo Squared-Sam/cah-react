@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Typography from "@material-ui/core/Typography";
 import {Container} from "@material-ui/core";
+import Api from "../Api";
 
 class GameList extends Component {
   constructor(props) {
@@ -12,9 +13,8 @@ class GameList extends Component {
   }
 
   componentDidMount = async () => {
-    const resp = await fetch("/list");
-    const data = await resp.json();
-    this.setState({users: data});
+    const resp = await Api.get("/list");
+    this.setState({users: resp});
   };
 
   render() {
