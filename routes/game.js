@@ -8,13 +8,12 @@ router.get('/:id', function (req, res, next) {
 	res.send("Your Game id is " + req.params.id)
 })
 
-router.get("/list", function(req,res,next) {
+router.get("/list", function (req, res, next) {
 	let SanitizedList = [];
 
-	for(Game in GameList) {
+	for (Game in GameList) {
 		let temp = Game
 		temp.pop(password)
-		temp.pop(gameID)
 		SanitizedList.push(temp)
 	}
 	req.send(SanitizedList)
@@ -29,12 +28,12 @@ router.post('/create', function (req, res, next) {
 	let gameID = uuidv4();
 
 	let game = {
-		gameID,
-		name,
-		password,
-		maxPlayers,
-		packs,
-		players,
+		"ID": gameID,
+		"LobbyName": name,
+		"LobbyPWD": password,
+		"maxPlayers": maxPlayers,
+		"Packs": packs,
+		"players": players
 	}
 	GameList.push(game)
 
@@ -42,7 +41,7 @@ router.post('/create', function (req, res, next) {
 
 })
 
-router.get('/players', function(req,res,next) {
+router.get('/players', function (req, res, next) {
 	let gameID = req.body.gameID
 	let game = getGameFromGames(gameID);
 
@@ -66,19 +65,34 @@ router.post('/join', function (req, res, next) {
 		res.status("401").send("Invalid Password")
 		return
 	}
-	if(game.players.length == game.maxPlayers){
+	if (game.players.length == game.maxPlayers) {
 		res.status("401").send("The game is full unable to join")
 	}
 
 	game.players.push({
-		userID,
-		userNick,
-		score
+		"userID": userID,
+		"nickname": userNick,
+		"score": score
 	})
 	res.send("Sucessfully joined game:" + gameID)
 })
 
+router.get("/:id/score", function (req, res, next) {
+	let playerID = req.body.playerID
+	let game = getGameFromGames = req.params.id;
+	let player = getPlayerFromGame(playerID, game)
 
+	res.send(player.score);
+})
+
+function getPlayerFromGame(playerID, game) {
+	for (player in game.players) {
+		if (player.id = playerID) {
+			return player
+		}
+	}
+	return false
+}
 
 function getGameFromGames(GameID) {
 	for (Game in GameList) {
