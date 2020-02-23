@@ -46,7 +46,7 @@ router.post('/create', function (req, res, next) {
 	let game = {
 		"ID": gameID,
 		"LobbyName": name,
-		"LobbyPWD": password,
+		"password": password,
 		"maxPlayers": maxPlayers,
 		"Packs": packs,
 		"players": players
