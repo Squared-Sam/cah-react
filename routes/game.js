@@ -1,5 +1,7 @@
 const uuidv4 = require('uuid/v4');
 const express = require('express')
+const Player = require('../libs/player.js')
+const Game = require('../libs/game.js')
 const router = express.Router()
 
 let GameList = [];
@@ -9,20 +11,15 @@ router.get('/games/:id', function (req, res, next) {
 })
 
 router.get("/list", function (req, res, next) {
-	let SanitizedList = [];
+	let temp = []
+	for (game of GameList)
+		temp.push(game.currentGame)
 
-	console.log(GameList)
-
-	for (Game of GameList) {
-		let temp = Game
-		delete temp.password
-		SanitizedList.push(temp)
-	}
-	res.send(SanitizedList)
+	res.send(temp)
 })
 
 router.post('/create', function (req, res, next) {
-	
+
 	let name = req.body.name;
 	let maxPlayers = req.body.maxPlayers || 0;
 	let packs = req.body.packs;
@@ -31,30 +28,23 @@ router.post('/create', function (req, res, next) {
 	let gameID = uuidv4();
 
 	console.log(name)
-	if(name == null){
+	if (name == null) {
 		next("Please specify a name for the lobby")
 		return
 	}
-	if(maxPlayers <= 1) {
+	if (maxPlayers <= 1) {
 		next("You have to have a lobby with more than 1 person")
 		return
 	}
-	if(packs == []) {
+	if (packs == []) {
 		next("No packs selected please select some packs")
 		return
 	}
-	let game = {
-		"ID": gameID,
-		"LobbyName": name,
-		"password": password,
-		"maxPlayers": maxPlayers,
-		"Packs": packs,
-		"players": players
-	}
+	let current = new Game(name, password, maxPlayers, packs, players);
 
-	GameList.push(game)
+	GameList.push(current)
 
-	res.send(game)
+	res.send(current.currentGame)
 
 })
 
@@ -96,24 +86,39 @@ router.post('/join', function (req, res, next) {
 
 router.get("/:id/score", function (req, res, next) {
 	let playerID = req.body.playerID
-	let game = getGameFromGames(req.params.id);
-	let player = getPlayerFromGame(playerID, game)
 
-	res.send(player.score);
+	let game = new Game(getGameFromGames(gameID));
+
+	let player = game.getPlayer(playerID)
+	if(!player) {
+		next("Unable to find player")
+	}
+	res.send(player.score)
 })
 
-function getPlayerFromGame(playerID, game) {
-	for (player of game.players) {
-		if (player.id = playerID) {
-			return player
-		}
+router.post('/scorepoint', function (req, res, next) {
+	let gameID = req.body.gameID
+	let playerID = req.body.playerID
+
+	let game = new Game(getGameFromGames(gameID));
+
+	let player = game.getPlayer(playerID)
+	if(!player) {
+		next("Unable to find player")
 	}
-	return false
-}
+
+	let newScore = player.score +=1
+
+	player.score(newScore)
+
+	return player
+
+
+})
 
 function getGameFromGames(GameID) {
 	for (Game in GameList) {
-		if (GameID == Game.gameID) {
+		if (GameID == Game.id) {
 			return Game
 		}
 	}
