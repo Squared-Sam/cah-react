@@ -2,31 +2,47 @@ const uuidv4 = require('uuid/v4');
 const express = require('express')
 const router = express.Router()
 
-let GameList = {};
+let GameList = [];
 
 router.get('/games/:id', function (req, res, next) {
 	res.send("Your Game id is " + req.params.id)
 })
 
 router.get("/list", function (req, res, next) {
-	let SanitizedList = {};
+	let SanitizedList = [];
 
-	for (Game in GameList) {
+	console.log(GameList)
+
+	for (Game of GameList) {
 		let temp = Game
-		temp.pop(password)
+		delete temp.password
 		SanitizedList.push(temp)
 	}
 	res.send(SanitizedList)
 })
 
 router.post('/create', function (req, res, next) {
+	
 	let name = req.body.name;
-	let maxPlayers = req.body.maxPlayers;
+	let maxPlayers = req.body.maxPlayers || 0;
 	let packs = req.body.packs;
 	let players = [];
 	let password = req.body.password;
 	let gameID = uuidv4();
 
+	console.log(name)
+	if(name == null){
+		next("Please specify a name for the lobby")
+		return
+	}
+	if(maxPlayers <= 1) {
+		next("You have to have a lobby with more than 1 person")
+		return
+	}
+	if(packs == []) {
+		next("No packs selected please select some packs")
+		return
+	}
 	let game = {
 		"ID": gameID,
 		"LobbyName": name,
@@ -35,6 +51,7 @@ router.post('/create', function (req, res, next) {
 		"Packs": packs,
 		"players": players
 	}
+
 	GameList.push(game)
 
 	res.send(game)
@@ -79,14 +96,14 @@ router.post('/join', function (req, res, next) {
 
 router.get("/:id/score", function (req, res, next) {
 	let playerID = req.body.playerID
-	let game = getGameFromGames = req.params.id;
+	let game = getGameFromGames(req.params.id);
 	let player = getPlayerFromGame(playerID, game)
 
 	res.send(player.score);
 })
 
 function getPlayerFromGame(playerID, game) {
-	for (player in game.players) {
+	for (player of game.players) {
 		if (player.id = playerID) {
 			return player
 		}
