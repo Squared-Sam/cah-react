@@ -1,41 +1,20 @@
 import React, {Component} from "react";
-import {CircularProgress} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import Container from "@material-ui/core/Container";
-import Api from "../Api";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 class Homepage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      users: null
-    };
-  }
-
-  componentDidMount = async () => {
-    const resp = await Api.get("/users");
-    this.setState({users: resp});
-  };
-
   render() {
-    if (this.state.users) {
-      return (
-        <Container>
-          <div>
-            <h1>Users</h1>
-            {this.state.users.map(user =>
-              <div key={user.id}>{user.username}</div>
-            )}
-            <Link to="/gamelist">GameList</Link>
-          </div>
-        </Container>
-      );
-    } else {
-      return (
-        <CircularProgress/>
-      );
-    }
+    return (
+      <Container>
+        <Typography variant="h2">A Cards Against Humanity clone</Typography>
+        <Typography variant="h4">This webapp is still in development. There will be bugs, but hopefully they won't
+          affect gameplay very much.</Typography>
+        <Button variant="contained" component={Link} to="/login">I accept, let me game</Button>
+        <Link to="/gamelist">GameList</Link>
+      </Container>
+    );
   }
 }
 

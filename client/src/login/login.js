@@ -25,7 +25,7 @@ class Login extends Component {
   render() {
     if (this.state.loggedIn || this.props.loggedIn()) {
       return (
-        <Redirect push to="/"/>
+        <Redirect push to="/gamelist"/>
       );
     }
 
