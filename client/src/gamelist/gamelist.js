@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Typography from "@material-ui/core/Typography";
+import {Container} from "@material-ui/core";
 
 class GameList extends Component {
   constructor(props) {
@@ -11,14 +12,16 @@ class GameList extends Component {
   }
 
   componentDidMount = async () => {
-    const resp = await fetch("/users");
+    const resp = await fetch("/list");
     const data = await resp.json();
     this.setState({users: data});
   };
 
   render() {
     return (
-      <Typography variant="h2">Test</Typography>
+      <Container>
+        <Typography variant="h2">Test</Typography>
+      </Container>
     );
   }
 }

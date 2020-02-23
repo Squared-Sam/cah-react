@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import {CircularProgress} from "@material-ui/core";
+import {Link} from "react-router-dom";
+import Container from "@material-ui/core/Container";
 
 class Homepage extends Component {
   constructor(props) {
@@ -19,12 +21,15 @@ class Homepage extends Component {
   render() {
     if (this.state.users) {
       return (
-        <div>
-          <h1>Users</h1>
-          {this.state.users.map(user =>
-            <div key={user.id}>{user.username}</div>
-          )}
-        </div>
+        <Container>
+          <div>
+            <h1>Users</h1>
+            {this.state.users.map(user =>
+              <div key={user.id}>{user.username}</div>
+            )}
+            <Link to="/gamelist">GameList</Link>
+          </div>
+        </Container>
       );
     } else {
       return (
