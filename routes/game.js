@@ -4,19 +4,19 @@ const router = express.Router()
 
 let GameList = {};
 
-router.get('/:id', function (req, res, next) {
+router.get('/games/:id', function (req, res, next) {
 	res.send("Your Game id is " + req.params.id)
 })
 
 router.get("/list", function (req, res, next) {
-	let SanitizedList = [];
+	let SanitizedList = {};
 
 	for (Game in GameList) {
 		let temp = Game
 		temp.pop(password)
 		SanitizedList.push(temp)
 	}
-	req.send(SanitizedList)
+	res.send(SanitizedList)
 })
 
 router.post('/create', function (req, res, next) {
