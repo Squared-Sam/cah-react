@@ -1,5 +1,5 @@
-const uuidv4 = require("uuid/v4");
-const Player = require("./player.js");
+const uuidv4 = require('uuid/v4');
+const Player = require('./player.js');
 
 class Game {
   constructor(name, password, maxPlayers, packs, players) {
@@ -47,7 +47,7 @@ class Game {
   }
 
   createPlayer(name) {
-    if (name === "") {
+    if (name === '') {
       return false;
     }
     if (this._players.size === this._maxPlayers) {

@@ -91,7 +91,7 @@
     ],
     "quotes": [
       2,
-      "double",
+      "single",
       "avoid-escape"
     ],
     "semi": [
