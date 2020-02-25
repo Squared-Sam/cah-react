@@ -35,10 +35,10 @@ class Login extends Component {
         <Typography variant="body1">This webapp is still in development. There will be bugs</Typography>
         <Grid container spacing={1} alignItems="flex-end">
           <Grid item>
-            <AccountCircle />
+            <AccountCircle/>
           </Grid>
           <Grid item>
-            <TextField id="input-with-icon-grid" label="Username" onKeyUp={this.handleInput} />
+            <TextField id="input-with-icon-grid" label="Username" onKeyUp={this.handleInput}/>
           </Grid>
         </Grid>
       </Container>

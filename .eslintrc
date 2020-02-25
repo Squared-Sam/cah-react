@@ -1,0 +1,137 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "rules": {
+    "accessor-pairs": 2,
+    "arrow-spacing": [
+      2,
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "comma-dangle": [
+      2,
+      "never"
+    ],
+    "comma-spacing": [
+      2,
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "comma-style": [
+      2,
+      "last"
+    ],
+    "curly": [
+      2,
+      "multi-line"
+    ],
+    "generator-star-spacing": [
+      2,
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "indent": [
+      2,
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "key-spacing": [
+      2,
+      {
+        "beforeColon": false,
+        "afterColon": true
+      }
+    ],
+    "keyword-spacing": [
+      2,
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "no-class-assign": 2,
+    "no-eval": 2,
+    "no-extra-parens": [
+      2,
+      "functions"
+    ],
+    "no-floating-decimal": 2,
+    "no-implied-eval": 2,
+    "no-labels": 2,
+    "no-mixed-spaces-and-tabs": 2,
+    "no-multi-spaces": 2,
+    "no-multi-str": 2,
+    "no-multiple-empty-lines": [
+      2,
+      {
+        "max": 1
+      }
+    ],
+    "no-trailing-spaces": 0,
+    "no-undef": 0,
+    "no-with": 2,
+    "operator-linebreak": [
+      0,
+      "after",
+      {
+        "overrides": {
+          "?": "before",
+          ":": "before"
+        }
+      }
+    ],
+    "quotes": [
+      2,
+      "single",
+      "avoid-escape"
+    ],
+    "semi": [
+      2,
+      "always"
+    ],
+    "semi-spacing": [
+      2,
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "space-before-blocks": [
+      2,
+      "always"
+    ],
+    "space-in-parens": [
+      2,
+      "never"
+    ],
+    "space-infix-ops": 2,
+    "spaced-comment": [
+      0,
+      "always",
+      {
+        "markers": [
+          "global",
+          "globals",
+          "eslint",
+          "eslint-disable",
+          "*package",
+          "!",
+          ","
+        ]
+      }
+    ],
+    "yoda": [
+      2,
+      "never"
+    ]
+  }
+}

@@ -8,6 +8,7 @@ import Homepage from "./homepage/homepage";
 import Login from "./login/login";
 import GameList from "./gamelist/gamelist";
 import Header from "./header/header";
+import CreateLobby from "./createLobby/createLobby";
 
 const theme = createMuiTheme({
   typography: {
@@ -63,16 +64,46 @@ class App extends Component {
     return this.state.userID !== null;
   };
 
-  ProtectedRoute = ({children, ...rest}) => {
-    if (this.state.userID) {
-      return (
-        <Route {...rest} children={children}/>
-      );
-    } else {
-      return (
-        <Redirect to={{pathname: "/login"}}/>
-      );
+  userIDSetup() {
+    if (this.storageAvailable("localStorage")) {
+      console.log(69);
+      if (localStorage.getItem("userID") !== null) {
+        console.log(71);
+        this.setState({userID: localStorage.getItem("userID")});
+      } else {
+        console.log(74);
+        this.setState({userID: false});
+      }
     }
+  }
+
+  authCheck = () => {
+    if (this.state.userID === null) {
+      this.userIDSetup();
+      return this.state.userID !== false;
+    } else {
+      return this.state.userID !== false;
+    }
+  };
+
+  ProtectedRoute = ({children, ...rest}) => {
+    return (
+      <Route
+        {...rest}
+        render={({location}) =>
+          this.authCheck ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: {from: location}
+              }}
+            />
+          )
+        }
+      />
+    );
   };
 
   storageAvailable(type) {
@@ -94,11 +125,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (this.storageAvailable("localStorage")) {
-      if (localStorage.getItem("userID") !== null) {
-        this.setState({userID: localStorage.getItem("userID")});
-      }
-    }
+    this.userIDSetup();
   }
 
   render() {
@@ -108,6 +135,7 @@ class App extends Component {
         <Router>
           <Header/>
           <Switch>
+            <this.ProtectedRoute path="/create/lobby" children={<CreateLobby/>}/>
             <this.ProtectedRoute path="/gamelist" children={<GameList/>}/>
             <Route path="/login" children={<Login handleLogin={this.handleLogin} loggedIn={this.loggedIn}/>}/>
             <Route exact-path="/" children={<Homepage/>}/>
