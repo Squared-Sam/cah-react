@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Slider from "@material-ui/core/Slider";
 import Api from "../Api";
+import {Redirect} from "react-router-dom";
 
 class CreateLobby extends Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class CreateLobby extends Component {
       roomNameError: false,
       passwordError: false,
       buttonDisabled: true,
-      maxPlayers: 0
+      maxPlayers: 4,
+      switchToLobby: null
     };
   }
 
@@ -56,82 +58,85 @@ class CreateLobby extends Component {
 
   createLobby = async (e) => {
     e.preventDefault();
-    await Api.post("/game/create", {
+    let data = await Api.post("/game/create", {
       body: JSON.stringify({
         name: document.getElementById("roomName").value,
         maxPlayers: this.state.maxPlayers,
         packs: ["ALL OF THEM"],
         password: document.getElementById("password").value
-      })
+      }),
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8"
+      }
     });
+    this.setState({switchToLobby: <Redirect push to={`/game/${data.id}`}/>});
   };
 
   render() {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline/>
-        <div>
-          <Typography component="h1" variant="h5">Create a Lobby?</Typography>
-          <form noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="roomName"
-                  label="Room Name"
-                  autoFocus
-                  inputProps={{minLength: "4", maxLength: "20"}}
-                  onKeyUp={this.validationHandler}
-                  error={this.state.roomNameError}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography id="discrete-slider" gutterBottom>
-                  Max Players
-                </Typography>
-                <Slider
-                  defaultValue={4}
-                  aria-labelledby="discrete-slider"
-                  valueLabelDisplay="auto"
-                  step={1}
-                  marks
-                  min={2}
-                  max={8}
-                  onChange={this.handleSlider}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="Game Pack"
-                  name="packs"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  label="Password"
-                  type="password"
-                  id="password"
-                  inputProps={{minLength: "4", maxLength: "20"}}
-                  error={this.state.passwordError}
-                  onKeyUp={this.validationHandler}
-                />
-              </Grid>
+        <Typography component="h1" variant="h5">Create a Lobby?</Typography>
+        <form noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="roomName"
+                label="Room Name"
+                autoFocus
+                inputProps={{minLength: "4", maxLength: "20"}}
+                onKeyUp={this.validationHandler}
+                error={this.state.roomNameError}
+              />
             </Grid>
-            <Button
-              type="submit" fullWidth variant="contained" color="primary"
-              disabled={this.state.buttonDisabled} onClick={this.createLobby}>
-              Create Lobby
-            </Button>
-          </form>
-        </div>
+            <Grid item xs={12}>
+              <Typography id="discrete-slider" gutterBottom>
+                Max Players
+              </Typography>
+              <Slider
+                defaultValue={4}
+                aria-labelledby="discrete-slider"
+                valueLabelDisplay="auto"
+                step={1}
+                marks
+                min={2}
+                max={8}
+                onChange={this.handleSlider}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Game Pack"
+                name="packs"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                label="Password"
+                type="password"
+                id="password"
+                inputProps={{minLength: "4", maxLength: "20"}}
+                error={this.state.passwordError}
+                onKeyUp={this.validationHandler}
+              />
+            </Grid>
+          </Grid>
+          <Button
+            type="submit" fullWidth variant="contained" color="primary"
+            disabled={this.state.buttonDisabled} onClick={this.createLobby}>
+            Create Lobby
+          </Button>
+          {this.state.switchToLobby}
+        </form>
       </Container>
     );
   }
