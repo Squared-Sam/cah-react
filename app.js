@@ -19,7 +19,8 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-  if (!req.is('application/json')) {
+  console.log('%O', req);
+  if (!req.is('application/json') && req.method == 'POST') {
     res.status(500).send('APIs require application/json');
   }
   next();
