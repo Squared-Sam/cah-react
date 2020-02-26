@@ -182,3 +182,5 @@ sketch
 # End of https://www.gitignore.io/api/node,react,intellij,visualstudiocode
 
 .vscode/
+
+config.js

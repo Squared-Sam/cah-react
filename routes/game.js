@@ -20,7 +20,7 @@ router.get('/list', function (req, res, next) {
 });
 
 router.post('/create', function (req, res, next) {
-  console.log(req.body)
+  console.log(req.body);
   let name = req.body.name;
   let maxPlayers = req.body.maxPlayers || 0;
   let packs = req.body.packs;
