@@ -20,24 +20,24 @@ router.get('/list', function (req, res, next) {
 });
 
 router.post('/create', function (req, res, next) {
+  console.log(req.body)
   let name = req.body.name;
   let maxPlayers = req.body.maxPlayers || 0;
   let packs = req.body.packs;
   let players = [];
   let password = req.body.password;
-  let gameID = uuidv4();
 
   console.log(name);
   if (name == null) {
-    next('Please specify a name for the lobby');
+    res.status(500).send('Please specify a name for the lobby');
     return;
   }
   if (maxPlayers <= 1) {
-    next('You have to have a lobby with more than 1 person');
+    res.status(500).send('You have to have a lobby with more than 1 person');
     return;
   }
   if (packs === []) {
-    next('No packs selected please select some packs');
+    res.status(500).send('No packs selected please select some packs');
     return;
   }
   let current = new Game(name, password, maxPlayers, packs, players);
@@ -66,22 +66,22 @@ router.post('/join', function (req, res, next) {
   console.log('The current game is:' + game);
 
   if (!game) {
-    next('Invalid Game');
+    res.status(500).send('Invalid Game');
     return;
   }
   console.log(pwd, game.password);
   if (pwd !== game.password) {
-    next('Invalid Password');
+    res.status(500).send('Invalid Password');
     return;
   }
   console.log(game, game.players, game.maxPlayers);
   if (game.players.size === game.maxPlayers) {
-    next('The game is full unable to join');
+    res.status(500).send('The game is full unable to join');
   }
 
   let response = game.createPlayer(userNick);
   if (!response) {
-    next('There was an error adding this person to the lobby');
+    res.status(500).send('There was an error adding this person to the lobby');
     return;
   }
 
@@ -95,7 +95,7 @@ router.get('/:id/score', function (req, res, next) {
 
   let player = game.getPlayer(playerID);
   if (!player) {
-    next('Unable to find player');
+    res.status(500).send('Unable to find player');
   }
   res.send(player.score);
 });
@@ -108,7 +108,7 @@ router.post('/scorepoint', function (req, res, next) {
 
   let player = game.getPlayer(playerID);
   if (!player) {
-    next('Unable to find player');
+    res.status(500).send('Unable to find player');
     return;
   }
 
