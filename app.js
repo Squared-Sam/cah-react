@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 app.use((req, res, next) => {
   if (!req.is('application/json')) {
-    next('APIs require application/json');
+    res.status(500).send('APIs require application/json');
   }
   next();
 });
