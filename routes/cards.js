@@ -64,10 +64,9 @@ router.post('/black/pack', async function (req, res, next) {
 router.post('/white/packs', async function (req, res, next) {
   let pack = req.body.packs;
 
-
   let array = [];
   for (item of pack) {
-    array.push(item)
+    array.push(item);
   }
 
   if (pack == null) {
@@ -90,7 +89,7 @@ router.post('/black/packs', async function (req, res, next) {
 
   let array = [];
   for (item of pack) {
-    array.push(item)
+    array.push(item);
   }
 
   if (pack == null) {

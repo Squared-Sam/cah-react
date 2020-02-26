@@ -4,7 +4,6 @@ const {
 const config = require('../config');
 const escape = require('pg-escape');
 
-console.log(config.db);
 const pool = new Pool(config.db);
 
 pool.on('error', (err, client) => {
@@ -50,7 +49,7 @@ async function getWhiteCardsByPack(pack) {
 async function getWhiteCardsByPacks(pack) {
   const client = await pool.connect();
   try {
-    const query = escape('SELECT * FROM white_cards where pack = ANY (select id from packs where pack_name in %L)', pack)
+    const query = escape('SELECT * FROM white_cards where pack = ANY (select id from packs where pack_name in %L)', pack);
     const res = await client.query(query);
     return await res.rows;
   } catch (err) {
@@ -74,7 +73,7 @@ async function getBlackCardsByPack(pack) {
 async function getBlackCardsByPacks(pack) {
   const client = await pool.connect();
   try {
-    const query = escape('SELECT * FROM white_cards where pack = ANY (select id from packs where pack_name in %L)', pack)
+    const query = escape('SELECT * FROM white_cards where pack = ANY (select id from packs where pack_name in %L)', pack);
     const res = await client.query(query);
     return await res.rows;
   } catch (err) {
