@@ -19,8 +19,10 @@ app.use(express.urlencoded({
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-  if (!req.is('application/json')) {
-    next('APIs require application/json');
+  if (req.method === 'POST') {
+    if (!req.is('application/json')) {
+      next('APIs require application/json');
+    }
   }
   next();
 });
