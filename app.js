@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 app.use((req, res, next) => {
   // console.log('%O', req);
-  if (!req.is('application/json') && req.method == 'POST') {
+  if (!req.is('application/json') && req.method === 'POST') {
     res.status(500).send('APIs require application/json');
   }
   next();
