@@ -66,26 +66,26 @@ router.post('/join', function (req, res, next) {
   console.log('The current game is:' + game);
 
   if (!game) {
-    res.status(500).send('Invalid Game');
+    res.status(400).json({'error': 'Invalid Game'});
     return;
   }
   console.log(pwd, game.password);
   if (pwd !== game.password) {
-    res.status(500).send('Invalid Password');
+    res.status(400).json({'error': 'Invalid Password'});
     return;
   }
   console.log(game, game.players, game.maxPlayers);
   if (game.players.size === game.maxPlayers) {
-    res.status(500).send('The game is full unable to join');
+    res.status(400).json({'error': 'The game is full unable to join'});
   }
 
   let response = game.createPlayer(userNick);
   if (!response) {
-    res.status(500).send('There was an error adding this person to the lobby');
+    res.status(400).json({'error': 'There was an error adding this person to the lobby'});
     return;
   }
 
-  res.send('Sucessfully joined game:' + gameID, ' the user id is ', response);
+  res.json({'gameID': gameID, 'userID': response});
 });
 
 router.get('/:id/score', function (req, res, next) {
