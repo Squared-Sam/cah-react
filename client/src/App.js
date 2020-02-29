@@ -9,6 +9,7 @@ import Login from "./login/login";
 import GameList from "./gamelist/gamelist";
 import Header from "./header/header";
 import CreateLobby from "./createLobby/createLobby";
+import GameLobby from "./gameLobby/gameLobby";
 
 const theme = createMuiTheme({
   typography: {
@@ -51,47 +52,47 @@ class App extends Component {
     super(props);
 
     this.state = {
-      userID: null
+      userNickname: null
     };
   }
 
   handleLogin = (username) => {
-    this.setState({userID: username});
-    localStorage.setItem("userID", username);
+    this.setState({userNickname: username});
+    localStorage.setItem("userNickname", username);
   };
 
   loggedIn = () => {
-    return this.state.userID !== null;
+    return this.state.userNickname !== false;
   };
 
   userIDSetup() {
     if (this.storageAvailable("localStorage")) {
-      console.log(69);
-      if (localStorage.getItem("userID") !== null) {
-        console.log(71);
-        this.setState({userID: localStorage.getItem("userID")});
+      if (localStorage.getItem("userNickname") !== null) {
+        this.setState({userNickname: localStorage.getItem("userNickname")});
       } else {
-        console.log(74);
-        this.setState({userID: false});
+        this.setState({userNickname: false});
       }
     }
   }
 
-  authCheck = () => {
-    if (this.state.userID === null) {
-      this.userIDSetup();
-      return this.state.userID !== false;
-    } else {
-      return this.state.userID !== false;
-    }
-  };
+  // authCheck = () => {
+  //   console.log(this.state.userNickname !== false);
+  //   return this.state.userNickname !== false;
+  //   // if (this.state.userNickname === null) {
+  //   //   // this.userIDSetup();
+  //   //   return this.state.userNickname !== false;
+  //   // } else {
+  //   //   return this.state.userNickname !== false;
+  //   // }
+  // };
 
   ProtectedRoute = ({children, ...rest}) => {
+    console.log("test");
     return (
       <Route
         {...rest}
         render={({location}) =>
-          this.authCheck ? (
+          this.state.userNickname !== false ? (
             children
           ) : (
             <Redirect
@@ -135,6 +136,7 @@ class App extends Component {
         <Router>
           <Header/>
           <Switch>
+            <this.ProtectedRoute path="/lobby/:gID" children={<GameLobby userID={this.state.userNickname}/>}/>
             <this.ProtectedRoute path="/create/lobby" children={<CreateLobby/>}/>
             <this.ProtectedRoute path="/gamelist" children={<GameList/>}/>
             <Route path="/login" children={<Login handleLogin={this.handleLogin} loggedIn={this.loggedIn}/>}/>
