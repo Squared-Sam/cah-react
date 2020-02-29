@@ -66,7 +66,7 @@ router.post('/join', function (req, res, next) {
   console.log('The current game is:' + game);
 
   if (!game) {
-    res.status(400).json({'error': 'Invalid Game'});
+    res.status(400).json({'error': 'Invalid Game ID'});
     return;
   }
   console.log(pwd, game.password);
