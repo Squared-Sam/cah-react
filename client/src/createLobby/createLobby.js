@@ -69,7 +69,7 @@ class CreateLobby extends Component {
         "Content-Type": "application/json;charset=UTF-8"
       }
     });
-    this.setState({switchToLobby: <Redirect push to={`/game/${data.id}`}/>});
+    this.setState({switchToLobby: <Redirect push to={`/lobby/${data.id}`}/>});
   };
 
   render() {
