@@ -77,6 +77,7 @@ router.post('/join', function (req, res, next) {
   console.log(game, game.players, game.maxPlayers);
   if (game.players.size === game.maxPlayers) {
     res.status(400).json({'error': 'The game is full unable to join'});
+    return;
   }
 
   let response = game.createPlayer(userNick);
@@ -96,6 +97,7 @@ router.get('/:id/score', function (req, res, next) {
   let player = game.getPlayer(playerID);
   if (!player) {
     res.status(500).send('Unable to find player');
+    return;
   }
   res.send(player.score);
 });

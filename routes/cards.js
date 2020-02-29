@@ -71,6 +71,7 @@ router.post('/white/packs', async function (req, res, next) {
 
   if (pack == null) {
     res.status(500).send('Please specify a array of packs in the format ["pack","pack2"]');
+    return;
   }
   let white_cards;
   try {
@@ -79,6 +80,7 @@ router.post('/white/packs', async function (req, res, next) {
   } catch (e) {
     console.error(e);
     res.status(500).send(e);
+    return;
   };
   res.send(white_cards);
 
