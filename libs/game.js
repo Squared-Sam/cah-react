@@ -2,13 +2,14 @@ const uuidv4 = require('uuid/v4');
 const Player = require('./player.js');
 
 class Game {
-  constructor(name, password, maxPlayers, packs, players) {
+  constructor(name, password, maxPlayers, packs, players, owner) {
     this._id = uuidv4();
     this._name = name;
     this._password = password;
     this._maxPlayers = maxPlayers;
     this._packs = packs;
     this._players = [];
+    this._owner = owner;
   }
 
   get currentGame() {

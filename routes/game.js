@@ -26,6 +26,7 @@ router.post('/create', function (req, res, next) {
   let packs = req.body.packs;
   let players = [];
   let password = req.body.password;
+  let owner = req.body.owner;
 
   console.log(name);
   if (name == null) {
@@ -40,7 +41,7 @@ router.post('/create', function (req, res, next) {
     res.status(500).send('No packs selected please select some packs');
     return;
   }
-  let current = new Game(name, password, maxPlayers, packs, players);
+  let current = new Game(name, password, maxPlayers, packs, players, owner);
 
   GameList.push(current);
 
@@ -66,27 +67,29 @@ router.post('/join', function (req, res, next) {
   console.log('The current game is:' + game);
 
   if (!game) {
-    res.status(400).json({'error': 'Invalid Game ID'});
+    res.status(400).json({'error': 'Invalid Game ID', 'errorID': 404});
     return;
   }
   console.log(pwd, game.password);
   if (pwd !== game.password) {
-    res.status(400).json({'error': 'Invalid Password'});
+    res.status(400).json({'error': 'Invalid Password', 'errorID': 401});
     return;
   }
   console.log(game, game.players, game.maxPlayers);
   if (game.players.size === game.maxPlayers) {
-    res.status(400).json({'error': 'The game is full unable to join'});
+    res.status(400).json({'error': 'The game is full unable to join', 'errorID': 413});
     return;
   }
 
   let response = game.createPlayer(userNick);
   if (!response) {
-    res.status(400).json({'error': 'There was an error adding this person to the lobby'});
+    res.status(400).json({'error': 'There was an error adding this person to the lobby', 'errorID': 400});
     return;
   }
 
-  res.json({'gameID': gameID, 'userID': response});
+  let owner = userNick === game._owner;
+
+  res.json({'gameID': gameID, 'userID': response, 'gameName': game._name, 'owner': owner});
 });
 
 router.get('/:id/score', function (req, res, next) {
