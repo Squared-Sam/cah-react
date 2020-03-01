@@ -136,8 +136,8 @@ class App extends Component {
         <Router>
           <Header/>
           <Switch>
-            <this.ProtectedRoute path="/lobby/:gID" children={<GameLobby userID={this.state.userNickname}/>}/>
-            <this.ProtectedRoute path="/create/lobby" children={<CreateLobby/>}/>
+            <this.ProtectedRoute path="/lobby/:gameID" children={<GameLobby userID={this.state.userNickname}/>}/>
+            <this.ProtectedRoute path="/create/lobby" children={<CreateLobby userID={this.state.userNickname}/>}/>
             <this.ProtectedRoute path="/gamelist" children={<GameList/>}/>
             <Route path="/login" children={<Login handleLogin={this.handleLogin} loggedIn={this.loggedIn}/>}/>
             <Route exact-path="/" children={<Homepage/>}/>
