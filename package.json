@@ -5,7 +5,11 @@
   "scripts": {
     "start": "concurrently \"nodemon bin/www\"  \"npm run client\"",
     "server": "node bin/www",
-    "client": "node start-client.js"
+    "client": "node start-client.js",
+    "dev-server": "nodemon bin/www"
+  },
+  "nodemonConfig": {
+    "ignore": ["client/*"]
   },
   "dependencies": {
     "babel-eslint": "^10.0.3",
