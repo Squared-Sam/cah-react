@@ -58,18 +58,20 @@ class CreateLobby extends Component {
 
   createLobby = async (e) => {
     e.preventDefault();
+    const password = document.getElementById("password").value;
     let data = await Api.post("/game/create", {
       body: JSON.stringify({
         name: document.getElementById("roomName").value,
         maxPlayers: this.state.maxPlayers,
         packs: ["ALL OF THEM"],
-        password: document.getElementById("password").value
+        password: password,
+        owner: this.props.userID
       }),
       headers: {
         "Content-Type": "application/json;charset=UTF-8"
       }
     });
-    this.setState({switchToLobby: <Redirect push to={`/lobby/${data.id}`}/>});
+    this.setState({switchToLobby: <Redirect push to={{pathname: `/lobby/${data.id}`, state: {password: password}}}/>});
   };
 
   render() {
