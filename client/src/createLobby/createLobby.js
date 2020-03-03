@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -77,7 +76,6 @@ class CreateLobby extends Component {
   render() {
     return (
       <Container component="main" maxWidth="xs">
-        <CssBaseline/>
         <Typography component="h1" variant="h5">Create a Lobby?</Typography>
         <form noValidate>
           <Grid container spacing={2}>
