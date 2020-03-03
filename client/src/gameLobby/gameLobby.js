@@ -2,8 +2,7 @@ import React, {Component} from "react";
 import Typography from "@material-ui/core/Typography";
 import {Container} from "@material-ui/core";
 import Api from "../Api";
-import {Link, withRouter} from "react-router-dom";
-import Button from "@material-ui/core/Button";
+import {withRouter} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import NoneFound from "./noneFound/noneFound";
 import GameOptions from "./gameOptions/gameOptions";
@@ -43,7 +42,9 @@ class GameLobby extends Component {
   };
 
   componentDidMount = async () => {
-    await this.setState({password: this.props.location.state.password});
+    if (this.props.location.state !== undefined) {
+      await this.setState({password: this.props.location.state.password});
+    }
     await this.join();
   };
 
