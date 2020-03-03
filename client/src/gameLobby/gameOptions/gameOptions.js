@@ -1,16 +1,31 @@
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import {Link} from "react-router-dom";
 import {Container} from "@material-ui/core";
 import React, {Component} from "react";
+import ScoreLimit from "./scoreLimit/scoreLimit";
 
 class GameOptions extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      scoreLimit: 8,
+      playerLimit: 4,
+      idleTime: 60,
+      cardSets: [],
+      password: null,
+      passwordHidden: true
+    };
+  }
+
+  handlePlayerLimitChange = (event) => {
+    this.setState({playerLimit: event.target.value});
+  };
+
   render() {
     return (
       <Container>
-        {/*<Typography variant="h4">There are currently {this.state.users > 0 ? this.state.users : "no"} running*/}
-        {/*  games</Typography>*/}
-        <Button variant="contained" component={Link} to="/create/lobby">Create a lobby</Button>
+        <form noValidate>
+          <ScoreLimit playerLimit={this.state.playerLimit} handlePlayerLimitChange={this.handlePlayerLimitChange}/>
+        </form>
       </Container>
     );
   }

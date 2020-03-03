@@ -6,6 +6,7 @@ import {withRouter} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import NoneFound from "./noneFound/noneFound";
 import GameOptions from "./gameOptions/gameOptions";
+import GameField from "./gameField/gameField";
 
 class GameLobby extends Component {
   constructor(props) {
@@ -66,7 +67,7 @@ class GameLobby extends Component {
     return (
       <Container>
         <Typography variant="h2">Joined {this.state.joinData.gameName}</Typography>
-        {this.state.isOwner && !this.state.haveStarted && <GameOptions/>}
+        {!this.state.haveStarted ? <GameOptions isOwner={this.state.isOwner}/> : <GameField/>}
       </Container>
     );
   }
