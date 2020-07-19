@@ -19,4 +19,4 @@ jobs:
         # GitHub access token used to create an issue
         github_token: ${{ secrets.GITHUB_TOKEN }}
         # Issue assignees (separated by commma)
-        issue_assignees: Lagicrus,smercer01
+        issue_assignees: Lagicrus,Mercer01
